@@ -1,0 +1,107 @@
+EXPERIMENT 6: JAVA SOAP WEB SERVICE
+
+CODE 1: CalculatorService.java
+
+import javax.jws.*;
+
+@WebService
+public interface CalculatorService {
+    @WebMethod
+    int add(int a, int b);
+
+    @WebMethod
+    int subtract(int a, int b);
+
+    @WebMethod
+    int multiply(int a, int b);
+}
+
+
+CODE 2: CalculatorServiceImpl.java
+
+import javax.jws.*;
+
+@WebService(endpointInterface = "CalculatorService")
+public class CalculatorServiceImpl implements CalculatorService {
+
+    public int add(int a, int b) {
+        return a + b;
+    }
+
+    public int subtract(int a, int b) {
+        return a - b;
+    }
+
+    public int multiply(int a, int b) {
+        return a * b;
+    }
+}
+
+
+CODE 3: CalculatorPublisher.java
+
+import javax.xml.ws.Endpoint;
+
+public class CalculatorPublisher {
+    public static void main(String[] args) {
+        String url = "http://localhost:8080/calculator";
+
+        Endpoint.publish(url, new CalculatorServiceImpl());
+
+        System.out.println("Calculator Web Service Started...");
+        System.out.println("Service URL: " + url);
+        System.out.println("WSDL URL: " + url + "?wsdl");
+    }
+}
+
+
+STEPS TO EXECUTE
+
+1. Open terminal.
+
+2. Check Java:
+   java -version
+   javac -version
+
+3. Create folder:
+   mkdir WebServiceLab
+   cd WebServiceLab
+
+4. Create the three Java files:
+   notepad CalculatorService.java
+   notepad CalculatorServiceImpl.java
+   notepad CalculatorPublisher.java
+
+5. Paste the respective code into each file and save.
+
+6. Compile:
+   javac *.java
+
+7. Start the web service:
+   java CalculatorPublisher
+
+8. Open a browser and visit:
+   http://localhost:8080/calculator?wsdl
+
+9. If the service is working, the browser displays the WSDL XML document.
+
+EXPECTED SERVER OUTPUT
+
+Calculator Web Service Started...
+Service URL: http://localhost:8080/calculator
+WSDL URL: http://localhost:8080/calculator?wsdl
+
+
+OPERATIONS
+
+add(20, 10)       = 30
+subtract(20, 10)  = 10
+multiply(20, 10)  = 200
+
+
+IMPORTANT
+
+- This code uses the legacy JAX-WS API.
+- JDK 11 and later do not include JAX-WS by default.
+- If javac reports that javax.jws or javax.xml.ws does not exist, use the lab's configured JDK or JAX-WS dependencies.
+- The three files above publish the service; a separate generated client is needed to invoke the operations remotely.

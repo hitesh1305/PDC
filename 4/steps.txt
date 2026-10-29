@@ -1,0 +1,197 @@
+EXPERIMENT 4: JAVA SOCKET PROGRAMMING AND RMI
+
+==================================================
+PART A: JAVA SOCKET PROGRAMMING
+==================================================
+
+FILE 1: SocketServer.java
+
+import java.io.*;
+import java.net.*;
+
+public class SocketServer {
+    public static void main(String[] args) {
+        try {
+            ServerSocket ss = new ServerSocket(5000);
+            System.out.println("Server started...");
+
+            Socket s = ss.accept();
+
+            BufferedReader in = new BufferedReader(
+                new InputStreamReader(s.getInputStream()));
+
+            PrintWriter out = new PrintWriter(
+                s.getOutputStream(), true);
+
+            String msg = in.readLine();
+            System.out.println("Client says: " + msg);
+
+            out.println("Message received successfully by Server.");
+
+            s.close();
+            ss.close();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+}
+
+
+FILE 2: SocketClient.java
+
+import java.io.*;
+import java.net.*;
+
+public class SocketClient {
+    public static void main(String[] args) {
+        try {
+            Socket s = new Socket("localhost", 5000);
+
+            PrintWriter out = new PrintWriter(
+                s.getOutputStream(), true);
+
+            BufferedReader in = new BufferedReader(
+                new InputStreamReader(s.getInputStream()));
+
+            out.println("Hello Server, this is the Client.");
+            System.out.println("Server Response: " + in.readLine());
+
+            s.close();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+}
+
+
+STEPS TO EXECUTE SOCKET PROGRAM
+
+1. Save both Java files in the same folder.
+2. Open terminal in that folder.
+3. Compile:
+   javac SocketServer.java SocketClient.java
+
+4. Open Terminal 1 and run:
+   java SocketServer
+
+5. Open Terminal 2 in the same folder and run:
+   java SocketClient
+
+EXPECTED OUTPUT:
+Server:
+Server started...
+Client says: Hello Server, this is the Client.
+
+Client:
+Server Response: Message received successfully by Server.
+
+
+==================================================
+PART B: JAVA RMI
+==================================================
+
+FILE 1: StringAnalyzer.java
+
+import java.rmi.*;
+
+public interface StringAnalyzer extends Remote {
+    int countCharacters(String str) throws RemoteException;
+}
+
+
+FILE 2: StringAnalyzerImpl.java
+
+import java.rmi.*;
+import java.rmi.server.*;
+
+public class StringAnalyzerImpl extends UnicastRemoteObject
+        implements StringAnalyzer {
+
+    public StringAnalyzerImpl() throws RemoteException {
+        super();
+    }
+
+    public int countCharacters(String str) throws RemoteException {
+        return str.length();
+    }
+}
+
+
+FILE 3: RMIServer.java
+
+import java.rmi.registry.*;
+
+public class RMIServer {
+    public static void main(String[] args) {
+        try {
+            StringAnalyzerImpl obj = new StringAnalyzerImpl();
+
+            Registry registry = LocateRegistry.createRegistry(1099);
+            registry.rebind("StringAnalyzer", obj);
+
+            System.out.println("RMI Server is ready...");
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+}
+
+
+FILE 4: RMIClient.java
+
+import java.rmi.registry.*;
+
+public class RMIClient {
+    public static void main(String[] args) {
+        try {
+            Registry registry =
+                LocateRegistry.getRegistry("localhost", 1099);
+
+            StringAnalyzer analyzer =
+                (StringAnalyzer) registry.lookup("StringAnalyzer");
+
+            String text = "Parallel Computing";
+            int result = analyzer.countCharacters(text);
+
+            System.out.println("String: " + text);
+            System.out.println("Number of Characters: " + result);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+}
+
+
+STEPS TO EXECUTE RMI
+
+1. Save all four Java files in the same folder.
+2. Open terminal in that folder.
+3. Compile all files:
+   javac *.java
+
+4. Open Terminal 1 and start the server:
+   java RMIServer
+
+5. Keep Terminal 1 running.
+6. Open Terminal 2 in the same folder and run:
+   java RMIClient
+
+EXPECTED OUTPUT:
+RMI Server:
+RMI Server is ready...
+
+RMI Client:
+String: Parallel Computing
+Number of Characters: 19
+
+
+==================================================
+IMPORTANT
+==================================================
+
+- Socket server must start before the socket client.
+- RMI server must start before the RMI client.
+- Keep the server terminal open while running the client.
+- Socket uses port 5000.
+- RMI Registry uses port 1099.
+- "Parallel Computing" contains 19 characters, including the space.
