@@ -1,28 +1,24 @@
+STEPS TO EXECUTE THE OPENMP PROGRAM
 
-PDC EXPERIMENT 1 - OPENMP HELLO WORLD
+1. Open Terminal using Ctrl + Alt + T.
 
-1. Open VS Code terminal.
-2. Check compiler:
-   gcc --version
+2. Install GCC and OpenMP support:
+   sudo apt update
+   sudo apt install gcc libomp-dev -y
 
-3. Create and save openmp_hello.c.
+3. Create a C file:
+   nano sum.c
 
-4. Compile:
-   gcc -fopenmp openmp_hello.c -o openmp_hello
+4. Paste your program into the editor.
 
-5. Windows PowerShell - run with 4 threads:
-   $env:OMP_NUM_THREADS="4"
-   .\openmp_hello.exe
+5. Save and exit Nano:
+   Press Ctrl + O, then Enter.
+   Press Ctrl + X.
 
-6. Linux - run with 4 threads:
-   export OMP_NUM_THREADS=4
-   ./openmp_hello
+6. Compile the program:
+   gcc -fopenmp sum.c -o sum
 
-7. Change thread count to 2 and run again.
+7. Run the program:
+   ./sum
 
-KEY POINTS:
-- -fopenmp enables OpenMP support in GCC.
-- #pragma omp parallel creates a parallel region.
-- omp_get_thread_num() returns the current thread ID.
-- omp_get_num_threads() returns the team size.
-- Thread output order is not fixed.
+8. Check the output.
