@@ -1,0 +1,64 @@
+PDC EXPERIMENT 3 — MPI STRING REVERSAL
+======================================
+
+STEP 1: OPEN UBUNTU WSL
+-----------------------
+1. Open Ubuntu from the Windows Start menu.
+2. Enter the following command:
+
+cd "/mnt/f/BTech/PDC/Exam/3"
+
+STEP 2: INSTALL MPI (ONLY IF NOT ALREADY INSTALLED)
+---------------------------------------------------
+sudo apt update
+sudo apt install openmpi-bin libopenmpi-dev -y
+
+STEP 3: VERIFY MPI
+------------------
+mpicc --version
+
+STEP 4: CREATE THE C PROGRAM
+----------------------------
+nano mpi_reverse.c
+
+Paste the MPI string-reversal C code into the editor.
+
+SAVE AND EXIT:
+1. Press Ctrl + O
+2. Press Enter
+3. Press Ctrl + X
+
+STEP 5: CHECK THE FILE
+----------------------
+ls
+
+Confirm that mpi_reverse.c is listed.
+
+STEP 6: COMPILE THE PROGRAM
+---------------------------
+mpicc mpi_reverse.c -o mpi_reverse
+
+If there is no error, compilation is successful.
+
+STEP 7: EXECUTE THE PROGRAM
+---------------------------
+mpirun -np 2 ./mpi_reverse
+
+EXPECTED OUTPUT:
+Reversed string: olleh
+
+STEP 8: IF THE PROGRAM DOES NOT RUN
+-----------------------------------
+Copy the complete error message and troubleshoot it.
+
+IMPORTANT:
+- Run these commands inside Ubuntu, not Windows PowerShell.
+- Run the cd command again whenever you reopen Ubuntu.
+- Create the C file before compiling it.
+- -np 2 starts two MPI processes.
+- Rank 0 sends "hello" to rank 1.
+- Rank 1 reverses the string and sends "olleh" back.
+- MPI_Send sends data.
+- MPI_Recv receives data.
+- MPI_Init initializes MPI.
+- MPI_Finalize ends MPI execution.

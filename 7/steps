@@ -1,0 +1,77 @@
+PDC EXPERIMENT 7 — CORBA WITH JAVA IDL
+======================================
+
+AIM
+---
+Develop a distributed calculator application using CORBA and Java IDL.
+
+REQUIREMENTS
+------------
+Java 8
+IDL compiler: idlj
+Naming Service: tnameserv
+Three terminal windows
+
+EXECUTION STEPS
+---------------
+
+1. Open Ubuntu WSL.
+
+2. Enter the project folder:
+
+cd /mnt/f/BTech/PDC/Exam/7/CORBAExperiment
+
+3. Generate Java files from IDL (if needed):
+
+idlj -fall Calculator.idl
+
+4. Compile generated files:
+
+javac CalculatorApp/*.java
+
+5. Compile application files:
+
+javac CalculatorImpl.java CalculatorServer.java CalculatorClient.java
+
+6. TERMINAL 1 — Start Naming Service:
+
+tnameserv -ORBInitialPort 1050
+
+Keep running.
+
+7. TERMINAL 2 — Start Server:
+
+java CalculatorServer -ORBInitialPort 1050
+
+Expected: Calculator Server Ready...
+
+Keep running.
+
+8. TERMINAL 3 — Start Client:
+
+java CalculatorClient -ORBInitialPort 1050
+
+EXPECTED OUTPUT
+---------------
+Addition = 30
+Subtraction = 10
+Multiplication = 200
+Division = 2.0
+
+IMPORTANT TERMS
+---------------
+CORBA = Common Object Request Broker Architecture
+ORB = Object Request Broker
+IDL = Interface Definition Language
+POA = Portable Object Adapter
+Stub = Client-side remote-object representative
+Naming Service = Finds the remote object
+idlj = Generates Java bindings from IDL
+tnameserv = Starts the Naming Service
+
+REMEMBER
+--------
+Server: Create -> Register -> Wait
+Client: Find -> Call -> Display
+
+Run the Naming Service first, then the server, then the client.

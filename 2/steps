@@ -1,0 +1,79 @@
+
+PDC EXPERIMENT 2 - PARALLEL SEARCH AND SORT
+Environment: Ubuntu Linux + GCC + OpenMP
+
+===============================
+PART A: PARALLEL LINEAR SEARCH
+===============================
+
+1. Open terminal:
+   Ctrl + Alt + T
+
+2. Create file:
+   nano search.c
+
+3. Paste the Parallel Linear Search C code.
+   Save: Ctrl + O, Enter
+   Exit: Ctrl + X
+
+4. Compile:
+   gcc -fopenmp search.c -o search
+
+5. Execute:
+   ./search
+
+6. Expected output:
+   Found at index 6
+
+
+========================================
+PART B: ODD-EVEN TRANSPOSITION SORT
+========================================
+
+1. Create file:
+   nano sort.c
+
+2. Paste the Odd-Even Sort C code.
+   Save: Ctrl + O, Enter
+   Exit: Ctrl + X
+
+3. Compile:
+   gcc -fopenmp sort.c -o sort
+
+4. Execute:
+   ./sort
+
+5. Expected output:
+   Sorted Array:
+   10 20 30 40 50 60 70 80
+
+
+===============================
+IMPORTANT COMMANDS AND KEYWORDS
+===============================
+
+Check compiler:
+gcc --version
+
+Compile with OpenMP:
+gcc -fopenmp filename.c -o program
+
+Run program:
+./program
+
+Set requested threads in code:
+omp_set_num_threads(4);
+
+Parallel loop:
+#pragma omp parallel for
+
+Search synchronization:
+#pragma omp critical
+
+SEARCH MEMORY ORDER:
+Array -> Key -> Found -> Threads
+-> Parallel loop -> Compare -> Critical -> Print
+
+SORT MEMORY ORDER:
+Array -> Phases -> Even/Odd
+-> Compare -> Swap -> Repeat -> Print

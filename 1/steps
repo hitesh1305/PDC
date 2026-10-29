@@ -1,0 +1,28 @@
+
+PDC EXPERIMENT 1 - OPENMP HELLO WORLD
+
+1. Open VS Code terminal.
+2. Check compiler:
+   gcc --version
+
+3. Create and save openmp_hello.c.
+
+4. Compile:
+   gcc -fopenmp openmp_hello.c -o openmp_hello
+
+5. Windows PowerShell - run with 4 threads:
+   $env:OMP_NUM_THREADS="4"
+   .\openmp_hello.exe
+
+6. Linux - run with 4 threads:
+   export OMP_NUM_THREADS=4
+   ./openmp_hello
+
+7. Change thread count to 2 and run again.
+
+KEY POINTS:
+- -fopenmp enables OpenMP support in GCC.
+- #pragma omp parallel creates a parallel region.
+- omp_get_thread_num() returns the current thread ID.
+- omp_get_num_threads() returns the team size.
+- Thread output order is not fixed.
